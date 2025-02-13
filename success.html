@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Success!</title>
+    <link
+      rel="stylesheet"
+      href="styles/main.css"
+    />
+    <style>
+      .confetti-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: #ff4d8d;
+        clip-path: polygon(
+          50% 0%,
+          90% 20%,
+          100% 60%,
+          75% 100%,
+          25% 100%,
+          0% 60%,
+          10% 20%
+        );
+      }
+
+      .confetti-left {
+        left: -10px;
+        animation: confettiLeft 3s ease-out forwards;
+      }
+
+      .confetti-right {
+        right: -10px;
+        animation: confettiRight 3s ease-out forwards;
+      }
+
+      @keyframes confettiLeft {
+        0% {
+          transform: translateX(0) translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateX(300px) translateY(600px) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      @keyframes confettiRight {
+        0% {
+          transform: translateX(0) translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateX(-300px) translateY(600px) rotate(-360deg);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1
+        class="title"
+        id="successMessage"
+      ></h1>
+    </div>
+    <div
+      class="confetti-container"
+      id="confettiContainer"
+    ></div>
+    <script>
+      // Get URL parameter to check if they clicked no
+      const params = new URLSearchParams(window.location.search);
+      const hasClickedNo = params.get("hasClickedNo") === "true";
+
+      // Set appropriate message
+      const message = hasClickedNo
+        ? "Never doubted you ;) See you Monday 😘"
+        : "Perfect, I'll see you on Monday ;)";
+      document.getElementById("successMessage").textContent = message;
+
+      // Create confetti
+      function createConfetti() {
+        const container = document.getElementById("confettiContainer");
+        const colors = ["#ff4d8d", "#ff99bb", "#ff66a3", "#ff3399", "#ff1a8c"];
+        const totalConfetti = 50; // 25 from each side
+
+        for (let i = 0; i < totalConfetti; i++) {
+          const confetti = document.createElement("div");
+          confetti.className = `confetti ${
+            i < totalConfetti / 2 ? "confetti-left" : "confetti-right"
+          }`;
+          confetti.style.backgroundColor =
+            colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.top = `${Math.random() * 100}%`;
+          confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+          container.appendChild(confetti);
+        }
+      }
+
+      // Start confetti animation when page loads
+      window.addEventListener("load", createConfetti);
+    </script>
+  </body>
+</html>
